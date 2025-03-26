@@ -14,3 +14,6 @@ server:
 
 project:
   poster: posters/
+
+base:
+  url: "http://localhost:9090"
