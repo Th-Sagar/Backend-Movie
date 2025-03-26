@@ -1,19 +1,19 @@
-package com.movieapi.Movie_Api.entities;
+package com.movieapi.Movie_Api.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.Set;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "movies")
-public class Movie {
+public class MovieDto {
 
     @Id
     private String movieId;
@@ -34,10 +34,11 @@ public class Movie {
     private Integer releaseYear;
 
     @NotEmpty(message = "Please provide at least one cast member!")
-    @Field(name = "movie_cast")
     private Set<String> movieCast;
 
     @NotBlank(message = "Please provide movie's poster!")
     private String poster;
 
+    @NotBlank(message = "Please provide movie's poster's url!")
+    private String posterUrl;
 }

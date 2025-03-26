@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Movie-Api
+
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/movie}
+      database: ${MONGO_DATABASE:apimovie}
+      auto-index-creation: ${MONGO_INDEX:true}
+
+server:
+  port: 9090
+
+
+project:
+  poster: posters/

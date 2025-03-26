@@ -13,8 +13,8 @@ public class MovieApiApplication {
 		System.setProperty("MONGO_URI",dotenv.get("MONGO_URI"));
 		System.setProperty("MONGO_DATABASE",dotenv.get("MONGO_DATABASE"));
 		System.setProperty("MONGO_INDEX",dotenv.get("MONGO_INDEX"));
-
 		SpringApplication.run(MovieApiApplication.class, args);
+
 	}
 
 }
