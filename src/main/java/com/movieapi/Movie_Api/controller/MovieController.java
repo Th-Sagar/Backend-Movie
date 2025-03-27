@@ -4,7 +4,6 @@ package com.movieapi.Movie_Api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieapi.Movie_Api.dto.MovieDto;
-import com.movieapi.Movie_Api.entities.Movie;
 import com.movieapi.Movie_Api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,6 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
-
 
     @PostMapping("/add-movie")
     public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto ) throws IOException {
@@ -41,12 +39,19 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getAllMovies(),HttpStatus.OK);
     }
 
+    @PutMapping("/update/{movieId}")
+    public ResponseEntity<MovieDto> updateMovieHandler(@PathVariable String movieId, @RequestPart MultipartFile file, @RequestPart String movieDtoObj) throws IOException {
+        if(file.isEmpty()) file = null;
+
+        MovieDto movieDto = convertToMovieDto(movieDtoObj);
+
+        return new ResponseEntity<>(movieService.updateMovie(movieId,movieDto,file),HttpStatus.OK);
+    }
 
 
-
-    private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
-        ObjectMapper objectMapper= new ObjectMapper();
-        return objectMapper.readValue(movieDtoObj,MovieDto.class);
+    @DeleteMapping("/delete/{movieId}")
+    public ResponseEntity<String> deleteMovieHandler(@PathVariable String movieId) throws IOException {
+        return new ResponseEntity<>(movieService.deleteMovie(movieId),HttpStatus.OK);
     }
 
 
@@ -54,6 +59,11 @@ public class MovieController {
 
 
 
+
+    private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
+        ObjectMapper objectMapper= new ObjectMapper();
+        return objectMapper.readValue(movieDtoObj,MovieDto.class);
+    }
 
 }
 
