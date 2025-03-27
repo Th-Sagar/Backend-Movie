@@ -2,6 +2,8 @@ package com.movieapi.Movie_Api.service;
 
 import com.movieapi.Movie_Api.dto.MovieDto;
 import com.movieapi.Movie_Api.entities.Movie;
+import com.movieapi.Movie_Api.exceptions.FileExistsException;
+import com.movieapi.Movie_Api.exceptions.MovieNotFoundException;
 import com.movieapi.Movie_Api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
         //1. upload the file
 
         if(Files.exists(Paths.get(path + File.separator + file.getOriginalFilename()))){
-            throw new RuntimeException("File already exists! Please enter another file name!");
+            throw new FileExistsException("File already exists! Please enter another file name!");
         }
         String uploadedFileName = fileService.uploadFile(path,file);
 
@@ -64,10 +67,6 @@ public class MovieServiceImpl implements MovieService {
 
         String posterUrl = baseUrl + "/file/" + uploadedFileName;
 
-
-
-
-
         //6. map movie object to DTO object and return it
 
 
@@ -89,7 +88,7 @@ public class MovieServiceImpl implements MovieService {
     public MovieDto getMovie(String movieId) {
         // 1. check the data in DB and if exists, fetch the data of give ID
 
-        Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new RuntimeException("Movie not found.."));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new MovieNotFoundException("Movie not found with id= "+ movieId));
 
         //2. generate posterURL
         String posterUrl = baseUrl + "/file/" + movie.getPoster();
@@ -117,7 +116,6 @@ public class MovieServiceImpl implements MovieService {
 
        List<MovieDto> movieDtos = new ArrayList<>();
 
-
         //2. iterate through the list, generate posterUrl for each movie obj, and map to MovieDto obj
 
         for(Movie movie:movies){
@@ -142,9 +140,7 @@ public class MovieServiceImpl implements MovieService {
 
         //1. check if movie object exists with given movieId
 
-        Movie mv = movieRepository.findById(movieId).orElseThrow(()-> new RuntimeException("Movie not found.."));
-
-
+        Movie mv = movieRepository.findById(movieId).orElseThrow(()-> new MovieNotFoundException("Movie not found with id= "+ movieId));
 
         //2. if file is null, do nothing if file is not null, then delete existing file associated with the record, and upload the new file
 
@@ -172,7 +168,6 @@ public class MovieServiceImpl implements MovieService {
                 movieDto.getMovieCast(),
                 movieDto.getPoster());
 
-
         //5. save the movie object -> return saved movie object
 
        Movie updatedMovie =  movieRepository.save(movie);
@@ -180,7 +175,6 @@ public class MovieServiceImpl implements MovieService {
         //6. generate posterUrl for it
 
         String posterUrl = baseUrl + "/file/" + fileName;
-
 
         //7. map to movieDto and return it
 
@@ -194,8 +188,6 @@ public class MovieServiceImpl implements MovieService {
                 movie.getPoster(),
                 posterUrl
                 );
-
-
         return response;
     }
 
@@ -203,7 +195,8 @@ public class MovieServiceImpl implements MovieService {
     public String deleteMovie(String movieId) throws IOException {
 
         //1. check if movie object exists in DB
-        Movie mv = movieRepository.findById(movieId).orElseThrow(()-> new RuntimeException("Movie not found.."));
+        Movie mv = movieRepository.findById(movieId).orElseThrow(()-> new
+                MovieNotFoundException("Movie not found with id= "+ movieId));
 
         String id = mv.getMovieId();
 

@@ -4,6 +4,7 @@ package com.movieapi.Movie_Api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieapi.Movie_Api.dto.MovieDto;
+import com.movieapi.Movie_Api.exceptions.EmptyFileException;
 import com.movieapi.Movie_Api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class MovieController {
     @PostMapping("/add-movie")
     public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto ) throws IOException {
 
+        if(file.isEmpty()){
+            throw new EmptyFileException("File is empyt! Please send another file!");
+        }
         MovieDto dto= convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(dto,file), HttpStatus.CREATED);
 
@@ -48,16 +52,10 @@ public class MovieController {
         return new ResponseEntity<>(movieService.updateMovie(movieId,movieDto,file),HttpStatus.OK);
     }
 
-
     @DeleteMapping("/delete/{movieId}")
     public ResponseEntity<String> deleteMovieHandler(@PathVariable String movieId) throws IOException {
         return new ResponseEntity<>(movieService.deleteMovie(movieId),HttpStatus.OK);
     }
-
-
-
-
-
 
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
