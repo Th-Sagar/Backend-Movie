@@ -4,8 +4,10 @@ package com.movieapi.Movie_Api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieapi.Movie_Api.dto.MovieDto;
+import com.movieapi.Movie_Api.dto.MoviePageResponse;
 import com.movieapi.Movie_Api.exceptions.EmptyFileException;
 import com.movieapi.Movie_Api.service.MovieService;
+import com.movieapi.Movie_Api.utils.AppConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,30 @@ public class MovieController {
     public ResponseEntity<String> deleteMovieHandler(@PathVariable String movieId) throws IOException {
         return new ResponseEntity<>(movieService.deleteMovie(movieId),HttpStatus.OK);
     }
+
+    @GetMapping("/allMoviesPage")
+    public ResponseEntity<MoviePageResponse> getMoviesWithPagination(
+            @RequestParam( defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam( defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize){
+
+        return new ResponseEntity<>(movieService.getAllMoviesWithPagination(pageNumber,pageSize),HttpStatus.OK);
+
+    }
+
+
+    @GetMapping("/allMoviesPageSort")
+    public ResponseEntity<MoviePageResponse> getMoviesWithPaginationAndSorting(
+            @RequestParam( defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam( defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam( defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(defaultValue = AppConstant.SORT_DIR, required = false) String dir
+
+            ){
+
+        return new ResponseEntity<>(movieService.getAllMoviesWithPaginationAndSorting(pageNumber,pageSize,sortBy,dir),HttpStatus.OK);
+
+    }
+
 
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
