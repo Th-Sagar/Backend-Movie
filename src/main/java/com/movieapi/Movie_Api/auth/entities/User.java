@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @DBRef
     private RefreshToken refreshToken;
 
+    @DBRef
+    private ForgotPassword forgotPassword;
+
     private UserRole role;
 
 

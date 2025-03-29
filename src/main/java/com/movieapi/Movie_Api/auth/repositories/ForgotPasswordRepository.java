@@ -1,15 +1,17 @@
 package com.movieapi.Movie_Api.auth.repositories;
 
+import com.movieapi.Movie_Api.auth.entities.ForgotPassword;
 import com.movieapi.Movie_Api.auth.entities.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface UserRepository extends MongoRepository<User,String> {
+public interface ForgotPasswordRepository extends MongoRepository<ForgotPassword,String> {
 
-    Optional<User> findByEmail(String username);
+    @Query("{'otp':?0,'user':?1}")
+    Optional<ForgotPassword> findByOtpAndUser(Integer otp, String userId);
+
 
 
 }
