@@ -58,8 +58,8 @@ public class MovieServiceImpl implements MovieService {
                 movieDto.getTitle(),
                 movieDto.getDirector(),
                 movieDto.getStudio(),
-                movieDto.getReleaseYear(),
                 movieDto.getMovieCast(),
+                movieDto.getReleaseYear(),
                 movieDto.getPoster()
         );
 
@@ -79,8 +79,8 @@ public class MovieServiceImpl implements MovieService {
                 savedMovie.getTitle(),
                 savedMovie.getDirector(),
                 savedMovie.getStudio(),
-                savedMovie.getReleaseYear(),
                 savedMovie.getMovieCast(),
+                savedMovie.getReleaseYear(),
                 savedMovie.getPoster(),
                 posterUrl
         );
@@ -105,8 +105,8 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.getDirector(),
                 movie.getStudio(),
-                movie.getReleaseYear(),
                 movie.getMovieCast(),
+                movie.getReleaseYear(),
                 movie.getPoster(),
                 posterUrl
         );
@@ -129,8 +129,8 @@ public class MovieServiceImpl implements MovieService {
                     movie.getTitle(),
                     movie.getDirector(),
                     movie.getStudio(),
-                    movie.getReleaseYear(),
                     movie.getMovieCast(),
+                    movie.getReleaseYear(),
                     movie.getPoster(),
                     posterUrl
             );
@@ -168,8 +168,8 @@ public class MovieServiceImpl implements MovieService {
                 movieDto.getTitle(),
                 movieDto.getDirector(),
                 movieDto.getStudio(),
-                movieDto.getReleaseYear(),
                 movieDto.getMovieCast(),
+                movieDto.getReleaseYear(),
                 movieDto.getPoster());
 
         //5. save the movie object -> return saved movie object
@@ -187,8 +187,8 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.getDirector(),
                 movie.getStudio(),
-                movie.getReleaseYear(),
                 movie.getMovieCast(),
+                movie.getReleaseYear(),
                 movie.getPoster(),
                 posterUrl
                 );
@@ -234,8 +234,8 @@ public class MovieServiceImpl implements MovieService {
                     movie.getTitle(),
                     movie.getDirector(),
                     movie.getStudio(),
-                    movie.getReleaseYear(),
                     movie.getMovieCast(),
+                    movie.getReleaseYear(),
                     movie.getPoster(),
                     posterUrl
             );
@@ -272,8 +272,8 @@ public class MovieServiceImpl implements MovieService {
                     movie.getTitle(),
                     movie.getDirector(),
                     movie.getStudio(),
-                    movie.getReleaseYear(),
                     movie.getMovieCast(),
+                    movie.getReleaseYear(),
                     movie.getPoster(),
                     posterUrl
             );

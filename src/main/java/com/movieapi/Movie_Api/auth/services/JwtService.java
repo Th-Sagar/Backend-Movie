@@ -56,8 +56,8 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-//        extraClaims = new HashMap<>(extraClaims);
-//        extraClaims.put("role", userDetails.getAuthorities());
+        extraClaims = new HashMap<>(extraClaims);
+        extraClaims.put("role", userDetails.getAuthorities());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -83,11 +83,4 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
-
-
-
-
-
-
 }

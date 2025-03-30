@@ -28,14 +28,14 @@ public class Movie {
     @NotBlank(message = "Please provide movie's studio!")
     private String studio;
 
+    @NotEmpty(message = "Please provide at least one cast member!")
+    @Field(name = "movie_cast")
+    private Set<String> movieCast;
+
     @NotNull(message = "Please provide movie's release year!")
     @Min(value = 1888, message = "Movies didn't exist before 1888")
     @Max(value = 2100,message = "Please provide a valid release year")
     private Integer releaseYear;
-
-    @NotEmpty(message = "Please provide at least one cast member!")
-    @Field(name = "movie_cast")
-    private Set<String> movieCast;
 
     @NotBlank(message = "Please provide movie's poster!")
     private String poster;

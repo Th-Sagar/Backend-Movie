@@ -24,6 +24,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/forgotPassword")
+@CrossOrigin(origins = "*")
 public class ForgotPasswordController {
 
     @Autowired
@@ -61,7 +62,7 @@ public class ForgotPasswordController {
         ForgotPassword fp = ForgotPassword
                 .builder()
                 .otp(otp)
-                .expirationTime(new Date(System.currentTimeMillis()+70*1000))
+                .expirationTime(new Date(System.currentTimeMillis()+20*100000))
                 .user(user)
                 .build();
         emailService.sendSimpleMessage(mailBody);

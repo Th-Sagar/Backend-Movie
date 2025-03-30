@@ -20,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/movie")
+@CrossOrigin(origins = "*")
 public class MovieController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class MovieController {
     public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto ) throws IOException {
 
         if(file.isEmpty()){
-            throw new EmptyFileException("File is empyt! Please send another file!");
+            throw new EmptyFileException("File is empty! Please send another file!");
         }
         MovieDto dto= convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(dto,file), HttpStatus.CREATED);
@@ -38,7 +39,7 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}")
-    public ResponseEntity<MovieDto> getMoiveHandler(@PathVariable String movieId){
+    public ResponseEntity<MovieDto> getMovieHandler(@PathVariable String movieId){
         return new ResponseEntity<>(movieService.getMovie(movieId),HttpStatus.FOUND);
     }
 
@@ -48,8 +49,10 @@ public class MovieController {
     }
 
     @PutMapping("/update/{movieId}")
-    public ResponseEntity<MovieDto> updateMovieHandler(@PathVariable String movieId, @RequestPart MultipartFile file, @RequestPart String movieDtoObj) throws IOException {
-        if(file.isEmpty()) file = null;
+    public ResponseEntity<MovieDto> updateMovieHandler(@PathVariable String movieId,
+                                                       @RequestPart(required = false) MultipartFile file,
+                                                       @RequestPart String movieDtoObj) throws IOException {
+        if(file==null || file.isEmpty()) file = null;
 
         MovieDto movieDto = convertToMovieDto(movieDtoObj);
 
@@ -60,7 +63,6 @@ public class MovieController {
     public ResponseEntity<String> deleteMovieHandler(@PathVariable String movieId) throws IOException {
         return new ResponseEntity<>(movieService.deleteMovie(movieId),HttpStatus.OK);
     }
-
     @GetMapping("/allMoviesPage")
     public ResponseEntity<MoviePageResponse> getMoviesWithPagination(
             @RequestParam( defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -79,12 +81,9 @@ public class MovieController {
             @RequestParam(defaultValue = AppConstant.SORT_DIR, required = false) String dir
 
             ){
-
         return new ResponseEntity<>(movieService.getAllMoviesWithPaginationAndSorting(pageNumber,pageSize,sortBy,dir),HttpStatus.OK);
 
     }
-
-
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
         ObjectMapper objectMapper= new ObjectMapper();

@@ -50,6 +50,8 @@ public class AuthService {
                .builder()
                .accessToken(accessToken)
                .refreshToken(refreshToken.getRefreshToken())
+               .name(savedUser.getName())
+               .email(savedUser.getEmail())
                .build();
     }
 
@@ -65,6 +67,8 @@ public class AuthService {
                 .builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken.getRefreshToken())
+                .name(user.getName())
+                .email(user.getEmail())
                 .build();
     }
 }
